@@ -3,9 +3,10 @@
 
 int main()
 {
-    polynomial p("y^2+z^2+k^2+x^2+y^2+z^2+k^2+x^2+y^2+z^2+k^2+x^2");
-    p.normalize();
-    std::cout << p.to_string() << '\n';
-    std::cout << p.size();
+    polynomial p1("0x+0x+0x+0x+0x+0x");
+    polynomial p2("0xxxxxx");
+    p1.normalize();
+    p2.normalize();
+    std::cout << p1.to_string() << '\n';
     return 0;
 }

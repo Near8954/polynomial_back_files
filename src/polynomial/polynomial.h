@@ -16,7 +16,7 @@ public:
 
     void insert_back(node *&e); // TODO check sz parameter in this function
 
-    void insert_back(polynomial pol);
+    void insert_back(const polynomial& pol);
 
     void polysorb();
 
@@ -25,6 +25,10 @@ public:
     void remove(node *&it);
 
     polynomial operator+(const polynomial &pol);
+
+    polynomial operator*(const polynomial &pol);
+
+    bool operator==(const polynomial &pol);
 
     std::string to_string();
 

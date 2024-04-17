@@ -110,7 +110,7 @@ node::node() {
     next = nullptr;
 }
 
-node::node(node &t) {
+node::node(const node &t) {
     k = t.k;
     powers = t.powers;
     prev = t.prev;
@@ -165,12 +165,32 @@ bool node::operator==(node &nd) {
     return true;
 }
 
+bool node::operator!=(node &nd) {
+    return !(*this == nd);
+}
+
+
 bool node::operator>(node &nd) {
     return (!(*this < nd) && !(*this == nd));
 }
 
 bool node::operator<=(node &nd) {
     return ((*this < nd) || (*this == nd));
+}
+
+node node::operator*(node &nd) {
+    node ans;
+    for (int i = 0; i < powers.size(); ++i) {
+        ans.powers[i] += powers[i];
+    }
+    for (int i = 0; i < nd.powers.size(); ++i) {
+        ans.powers[i] += nd.powers[i];
+    }
+    ans.k = k * nd.k;
+    if (ans.k == 0) {
+        ans.powers.clear();
+    }
+    return ans;
 }
 
 

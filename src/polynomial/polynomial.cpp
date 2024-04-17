@@ -4,7 +4,7 @@ node* merge(node* l, node* r) {
     if (l == nullptr) return r;
     if (r == nullptr) return l;
     node* cur;
-    if (*l <= *r) {
+    if (*l > *r) {
         cur = l;
         l = l->next;
     } else {
@@ -13,7 +13,7 @@ node* merge(node* l, node* r) {
     }
     node* beg = cur;
     while (l != nullptr && r != nullptr) {
-        if (*l <= *r) {
+        if (*l > *r) {
             cur->next = l;
             cur->next->prev = cur;
             cur = cur->next;
@@ -84,39 +84,30 @@ polynomial::polynomial(std::string s) {
 
 // TODO make copy constructor
 polynomial::polynomial(const polynomial &pol) {
-    if (pol.sz == 0) {
-        this->head = nullptr;
-        this->tail = nullptr;
-        this->next = nullptr;
-        this->prev = nullptr;
-        this->sz = 0;
+    if (pol.head == nullptr) {
+        next = nullptr;
+        prev = nullptr;
+        head = nullptr;
+        tail = nullptr;
+        sz = 0;
+        return;
     } else {
-        node *hd = nullptr;
-        node *pr = nullptr;
-        for (auto curr = pol.head; curr != nullptr; curr = curr->next) {
-            auto nd = new node(*curr);
-            if (curr == pol.head) {
-                hd = nd;
-            }
-            if (pr == nullptr) {
-                pr = nd;
-            }
-            if (pr != hd) {
-                pr->next = nd;
-                nd->prev = pr;
-            }
-            pr = nd;
+        next = nullptr;
+        prev = nullptr;
+        sz = 0;
+        for (auto el = pol.head; el != nullptr; el = el->next) {
+            node* nd = new node(*el);
+            insert_back(nd);
         }
-        head = hd;
-        tail = pr;
-        sz = pol.sz;
     }
 }
 
 std::string polynomial::to_string() {
     std::string ans;
     for (node *t = this->head; t != nullptr; t = t->next) {
-        if (t->k > 0 && t != this->head) {
+        if (t->k == 0 && t != this->head) {
+            ans += "0";
+        } else if (t->k > 0 && t != this->head) {
             ans += '+';
             ans += t->to_string();
         } else {
@@ -187,6 +178,11 @@ void polynomial::normalize() {
         }
         l = l->next;
     }
+    for (auto l = head; l != nullptr; l=l->next) {
+        if (l->k == 0) {
+            l->powers.assign(26, 0);
+        }
+    }
     sz = 0;
     tail = nullptr;
     for (auto l = head; l != nullptr; l = l->next) {
@@ -196,22 +192,50 @@ void polynomial::normalize() {
 }
 
 polynomial polynomial::operator+(const polynomial &pol) {
-    polynomial cp1 = *this;
-    polynomial cp2 = pol;
-    cp1.tail->next = cp2.head;
-    cp2.head->prev = cp1.tail;
-    cp1.tail = cp2.tail;
-    cp1.normalize();
-    return cp1;
+    polynomial cp;
+    for (auto tmp = pol.head; tmp != nullptr; tmp = tmp->next) {
+        auto nd = (new node(*tmp));
+        cp.insert_back(nd);
+    }
+    for (auto tmp = this->head; tmp != nullptr; tmp = tmp->next) {
+        auto nd = (new node(*tmp));
+        cp.insert_back(nd);
+    }
+    cp.normalize();
+    return cp;
 }
 
-void polynomial::insert_back(polynomial pol) {
-    tail->next = pol.head;
-    pol.head->prev = tail;
-    node* tmp = head;
+bool polynomial::operator==(const polynomial &pol) {
+    if (this->sz != pol.sz) {
+        return false;
+    }
+    for (auto t1 = this->head, t2 = pol.head; t1 != nullptr && t2 != nullptr; t1=t1->next, t2=t2->next) {
+        if (*t1 != *t2) {
+            return false;
+        }
+    }
+    return true;
+}
+
+void polynomial::insert_back(const polynomial& pol) {
+    if (this->tail == nullptr) {}
+    this->tail->next = pol.head;
+    pol.head->prev = this->tail;
+    node* tmp = this->head;
     sz += pol.sz;
     for (;tmp->next != nullptr; tmp = tmp->next) {}
-    tail = tmp;
+    this->tail = tmp;
+}
+
+polynomial polynomial::operator*(const polynomial &pol) {
+    polynomial ans;
+    for (auto t1 = head; t1 != nullptr; t1=t1->next) {
+        for (auto t2 = pol.head; t2 != nullptr; t2 = t2->next) {
+            auto nd = new node((*t1)*(*t2));
+            ans.insert_back(nd);
+        }
+    }
+    return ans;
 }
 
 /*std::ostream &operator<<(std::ostream &os, const polynomial &p) {

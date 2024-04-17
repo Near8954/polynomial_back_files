@@ -3,6 +3,7 @@
 
 #include <string>
 #include <vector>
+#include <iostream>
 struct wrong_monomial {
     wrong_monomial(std::string s, char ch) {
         error_type = s;
@@ -18,13 +19,17 @@ struct node {
 
     node(std::string s);
 
-    node(node &t);
+    node(const node &t);
 
     ~node() = default;
 
     bool operator<(node &nd);
 
     bool operator==(node &nd);
+
+    bool operator!=(node &nd);
+
+    node operator*(node &nd);
 
     bool operator>(node &nd);
 
