@@ -1,15 +1,15 @@
 #include "node.h"
 
-std::pair<double, std::vector<double>> check(const std::string &s) {
+std::pair<int64_t, std::vector<int64_t>> check(const std::string &s) {
     double k = 1.0;
     if (s.empty()) {
-        return {0, std::vector<double>(26)};
+        return {0, std::vector<int64_t>(26)};
     }
     std::string num;
     int state = 0;
     bool sign = false;
     char var = 'Z';
-    std::vector<double> pows;
+    std::vector<int64_t> pows;
     pows.resize(26);
     try {
         for (char i: s) {
@@ -126,11 +126,17 @@ node::node(std::string s) {
     k = nd.first;
 };
 
-
+int64_t sum(std::vector<int64_t> &v) {
+    int ans = 0;
+    for (auto e : v) {
+        ans += e;
+    }
+    return ans;
+}
 
 std::string node::to_string() {
     std::string ans;
-    if (k != 1) {
+    if (k != 1 || (sum(powers) == 0)) {
         ans += std::to_string((int)this->k);
     }
     for (int i = 0; i < 26; ++i) {

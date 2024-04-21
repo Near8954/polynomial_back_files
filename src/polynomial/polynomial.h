@@ -8,21 +8,23 @@ class polynomial {
 public:
     polynomial();
 
+    ~polynomial();
+
     explicit polynomial(std::string s);
 
     polynomial(const polynomial &pol);
 
-    ~polynomial();
-
-    void insert_back(node *&e); // TODO check sz parameter in this function
+    void insert_back(node *&e);
 
     void insert_back(const polynomial& pol);
 
-    void polysorb();
-
-    void normalize(); // TODO check sz parameter in this function
-
     void remove(node *&it);
+
+    void polynomial_sort();
+
+    void normalize();
+
+    polynomial get_derivative(int n);
 
     polynomial operator+(const polynomial &pol);
 
@@ -30,11 +32,13 @@ public:
 
     bool operator==(const polynomial &pol);
 
+    std::vector<int64_t> get_values();
+
     std::string to_string();
 
-    friend void mergeSort(node *&L, int sz);
+    //friend void mergeSort(node *&L, int sz);
 
-    friend node *merge(node *&L, node *&r);
+    //friend node *merge(node *&L, node *&r);
 
     //friend std::ostream &operator<<(std::ostream &os, const polynomial &p);
 

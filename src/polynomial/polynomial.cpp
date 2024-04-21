@@ -1,9 +1,9 @@
 #include "polynomial.h"
 
-node* merge(node* l, node* r) {
+node *merge(node *l, node *r) {
     if (l == nullptr) return r;
     if (r == nullptr) return l;
-    node* cur;
+    node *cur;
     if (*l > *r) {
         cur = l;
         l = l->next;
@@ -11,7 +11,7 @@ node* merge(node* l, node* r) {
         cur = r;
         r = r->next;
     }
-    node* beg = cur;
+    node *beg = cur;
     while (l != nullptr && r != nullptr) {
         if (*l > *r) {
             cur->next = l;
@@ -36,14 +36,14 @@ node* merge(node* l, node* r) {
     return beg;
 }
 
-void mrgsort(node*& l, int n) {
+void mrgsort(node *&l, int n) {
     if (n <= 1) return;
     int m = n / 2;
-    node* cur = l;
+    node *cur = l;
     for (int i = 0; i < m; ++i) {
         cur = cur->next;
     }
-    node* r = cur;
+    node *r = cur;
     cur->prev->next = nullptr;
     cur->prev = nullptr;
     mrgsort(l, m);
@@ -64,25 +64,25 @@ polynomial::~polynomial() {
     }
 }
 
+
 polynomial::polynomial(std::string s) {
     std::string cp = s;
     std::string curr;
     for (int i = 0; i < cp.size(); ++i) {
         if (s[i] == '-' || s[i] == '+' && !curr.empty()) {
             node *nd = new node(curr);
-            this->insert_back(nd);
+            insert_back(nd);
             curr.clear();
         }
         curr += s[i];
     }
     if (!curr.empty()) {
         node *nd = new node(curr);
-        this->insert_back(nd);
+        insert_back(nd);
         curr.clear();
     }
 }
 
-// TODO make copy constructor
 polynomial::polynomial(const polynomial &pol) {
     if (pol.head == nullptr) {
         next = nullptr;
@@ -96,25 +96,10 @@ polynomial::polynomial(const polynomial &pol) {
         prev = nullptr;
         sz = 0;
         for (auto el = pol.head; el != nullptr; el = el->next) {
-            node* nd = new node(*el);
+            node *nd = new node(*el);
             insert_back(nd);
         }
     }
-}
-
-std::string polynomial::to_string() {
-    std::string ans;
-    for (node *t = this->head; t != nullptr; t = t->next) {
-        if (t->k == 0 && t != this->head) {
-            ans += "0";
-        } else if (t->k > 0 && t != this->head) {
-            ans += '+';
-            ans += t->to_string();
-        } else {
-            ans += t->to_string();
-        }
-    }
-    return ans;
 }
 
 
@@ -130,6 +115,18 @@ void polynomial::insert_back(node *&e) {
     tail = e;
     ++sz;
 }
+
+
+void polynomial::insert_back(const polynomial &pol) {
+    if (this->tail == nullptr) {}
+    this->tail->next = pol.head;
+    pol.head->prev = this->tail;
+    node *tmp = this->head;
+    sz += pol.sz;
+    for (; tmp->next != nullptr; tmp = tmp->next) {}
+    this->tail = tmp;
+}
+
 
 void polynomial::remove(node *&it) {
     if (it == nullptr) {
@@ -160,12 +157,12 @@ void polynomial::remove(node *&it) {
     delete it;
 }
 
-void polynomial::polysorb() {
+void polynomial::polynomial_sort() {
     mrgsort(this->head, sz);
 }
 
 void polynomial::normalize() {
-    this->polysorb();
+    this->polynomial_sort();
     if (this->head == nullptr) {
         return;
     }
@@ -178,7 +175,7 @@ void polynomial::normalize() {
         }
         l = l->next;
     }
-    for (auto l = head; l != nullptr; l=l->next) {
+    for (auto l = head; l != nullptr; l = l->next) {
         if (l->k == 0) {
             l->powers.assign(26, 0);
         }
@@ -189,6 +186,11 @@ void polynomial::normalize() {
         tail = l;
         ++sz;
     }
+}
+
+
+polynomial polynomial::get_derivative(int n) {
+    return polynomial();
 }
 
 polynomial polynomial::operator+(const polynomial &pol) {
@@ -205,11 +207,22 @@ polynomial polynomial::operator+(const polynomial &pol) {
     return cp;
 }
 
+polynomial polynomial::operator*(const polynomial &pol) {
+    polynomial ans;
+    for (auto t1 = head; t1 != nullptr; t1 = t1->next) {
+        for (auto t2 = pol.head; t2 != nullptr; t2 = t2->next) {
+            auto nd = new node((*t1) * (*t2));
+            ans.insert_back(nd);
+        }
+    }
+    return ans;
+}
+
 bool polynomial::operator==(const polynomial &pol) {
     if (this->sz != pol.sz) {
         return false;
     }
-    for (auto t1 = this->head, t2 = pol.head; t1 != nullptr && t2 != nullptr; t1=t1->next, t2=t2->next) {
+    for (auto t1 = this->head, t2 = pol.head; t1 != nullptr && t2 != nullptr; t1 = t1->next, t2 = t2->next) {
         if (*t1 != *t2) {
             return false;
         }
@@ -217,26 +230,87 @@ bool polynomial::operator==(const polynomial &pol) {
     return true;
 }
 
-void polynomial::insert_back(const polynomial& pol) {
-    if (this->tail == nullptr) {}
-    this->tail->next = pol.head;
-    pol.head->prev = this->tail;
-    node* tmp = this->head;
-    sz += pol.sz;
-    for (;tmp->next != nullptr; tmp = tmp->next) {}
-    this->tail = tmp;
+
+int64_t power(int64_t x, int64_t y) {
+    if (y == 0)
+        return 1;
+    else if (y % 2 == 0)
+        return power(x, y / 2) * power(x, y / 2);
+    else
+        return x * power(x, y / 2) * power(x, y / 2);
 }
 
-polynomial polynomial::operator*(const polynomial &pol) {
-    polynomial ans;
-    for (auto t1 = head; t1 != nullptr; t1=t1->next) {
-        for (auto t2 = pol.head; t2 != nullptr; t2 = t2->next) {
-            auto nd = new node((*t1)*(*t2));
-            ans.insert_back(nd);
+int64_t summ(std::vector<int64_t> &v) {
+    int ans = 0;
+    for (auto e: v) {
+        ans += e;
+    }
+    return ans;
+}
+
+std::vector<int64_t> polynomial::get_values() {
+    for (auto curr = head; curr != nullptr; curr = curr->next) {
+        int cnt = 0;
+        for (auto e: curr->powers) {
+            if (e) {
+                ++cnt;
+            }
+        }
+        if (cnt > 1) {
+            throw "Wrong number of vars";
+        }
+    }
+    std::set<int> ans;
+    for (int64_t i = -tail->k; i < tail->k; ++i) {
+        int tmp = 0;
+        if (i != 0 && tail->k % i == 0) {
+            for (auto curr = head; curr != nullptr; curr = curr->next) {
+                tmp += curr->k * power(i, summ(curr->powers));
+            }
+            if (tmp == 0) {
+                ans.insert(i);
+            }
+        }
+    }
+    for (int64_t i = tail->k; i < -tail->k; ++i) {
+        int tmp = 0;
+        if (i != 0 && tail->k % i == 0) {
+            for (auto curr = head; curr != nullptr; curr = curr->next) {
+                tmp += curr->k * power(i, summ(curr->powers));
+            }
+            if (tmp == 0) {
+                ans.insert(i);
+            }
+        }
+    }
+    if (summ(tail->powers)) {
+        ans.insert(0);
+    }
+    std::vector<int64_t> out;
+    for (auto e: ans) {
+        out.push_back(e);
+    }
+    return out;
+}
+
+
+std::string polynomial::to_string() {
+    std::string ans;
+    for (node *t = this->head; t != nullptr; t = t->next) {
+        if (t->k == 0 && t != this->head) {
+            ans += "0";
+        } else if (t->k > 0 && t != this->head) {
+            ans += '+';
+            ans += t->to_string();
+        } else {
+            ans += t->to_string();
         }
     }
     return ans;
 }
+
+
+
 
 /*std::ostream &operator<<(std::ostream &os, const polynomial &p) {
     for (node *t = p.head; t != nullptr; t = t->next) {

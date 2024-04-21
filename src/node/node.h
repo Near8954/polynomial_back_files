@@ -2,11 +2,14 @@
 #define NODE_H
 
 #include <string>
+#include <utility>
 #include <vector>
 #include <iostream>
+#include <set>
+
 struct wrong_monomial {
     wrong_monomial(std::string s, char ch) {
-        error_type = s;
+        error_type = std::move(s);
         c = ch;
     }
 
@@ -17,7 +20,7 @@ struct wrong_monomial {
 struct node {
     node();
 
-    node(std::string s);
+    explicit node(std::string s);
 
     node(const node &t);
 
@@ -37,11 +40,10 @@ struct node {
 
     std::string to_string();
 
-    double k = 1;
-    std::vector<double> powers;
+    int64_t k = 1;
+    std::vector<int64_t> powers;
     node *prev = nullptr;
     node *next = nullptr;
 };
-
 
 #endif // NODE_H
