@@ -126,7 +126,7 @@ node::node(std::string s) {
     k = nd.first;
 };
 
-int64_t sum(std::vector<int64_t> &v) {
+static int64_t sum(std::vector<int64_t> &v) {
     int ans = 0;
     for (auto e : v) {
         ans += e;
@@ -196,6 +196,19 @@ node node::operator*(node &nd) {
     if (ans.k == 0) {
         ans.powers.clear();
     }
+    return ans;
+}
+
+node node::get_derivative(char x) {
+    node ans;
+    ans.k = k;
+    if (!powers[x - 'a']) {
+        ans.k = 0;
+        return ans;
+    }
+    ans.powers = powers;
+    ans.k *= ans.powers[x - 'a'];
+    --ans.powers[x - 'a'];
     return ans;
 }
 

@@ -1,5 +1,14 @@
 #include "polynomial.h"
 
+int64_t power(int64_t x, int64_t y) {
+    if (y == 0)
+        return 1;
+    else if (y % 2 == 0)
+        return power(x, y / 2) * power(x, y / 2);
+    else
+        return x * power(x, y / 2) * power(x, y / 2);
+}
+
 node *merge(node *l, node *r) {
     if (l == nullptr) return r;
     if (r == nullptr) return l;
@@ -58,9 +67,15 @@ polynomial::polynomial() {
 }
 
 polynomial::~polynomial() {
-    for (auto l = this->head; l != nullptr; l = l->next) {
-        auto curr = l;
+//    for (auto l = this->head; l != nullptr; l = l->next) {
+//        auto curr = l;
+//        this->remove(curr);
+//    }
+    node *curr = this->head;
+    while (curr != nullptr) {
+        node *next = curr->next;
         this->remove(curr);
+        curr = next;
     }
 }
 
@@ -97,6 +112,8 @@ polynomial::polynomial(const polynomial &pol) {
         sz = 0;
         for (auto el = pol.head; el != nullptr; el = el->next) {
             node *nd = new node(*el);
+            nd->next = nullptr;
+            nd->prev = nullptr;
             insert_back(nd);
         }
     }
@@ -186,11 +203,40 @@ void polynomial::normalize() {
         tail = l;
         ++sz;
     }
+    if (tail != nullptr && head != nullptr && head != tail && tail->k == 0) {
+        tail = tail->prev;
+        remove(tail->next);
+    }
+}
+
+int64_t polynomial::get_value_in_point(std::vector<int64_t> &vars) {
+    int64_t ans = 0;
+    for (auto curr = head; curr != nullptr; curr = curr->next) {
+        int64_t tmp = 1;
+        for (int i = 0; i < 26; ++i) {
+            tmp *= power(vars[i], curr->powers[i]);
+        }
+        tmp *= curr->k;
+        ans += tmp;
+    }
+    return ans;
 }
 
 
-polynomial polynomial::get_derivative(int n) {
-    return polynomial();
+polynomial polynomial::get_derivative(int n, char x) {
+    auto tmp = new polynomial(*this);
+    polynomial ans;
+    for (int i = 0; i < n; ++i) {
+        for (auto curr = tmp->head; curr != nullptr; curr = curr->next) {
+            auto nd = new node(curr->get_derivative(x));
+            ans.insert_back(nd);
+        }
+        delete tmp;
+        tmp = new polynomial(ans);
+        ans = polynomial();
+    }
+    tmp->normalize();
+    return *tmp;
 }
 
 polynomial polynomial::operator+(const polynomial &pol) {
@@ -230,17 +276,7 @@ bool polynomial::operator==(const polynomial &pol) {
     return true;
 }
 
-
-int64_t power(int64_t x, int64_t y) {
-    if (y == 0)
-        return 1;
-    else if (y % 2 == 0)
-        return power(x, y / 2) * power(x, y / 2);
-    else
-        return x * power(x, y / 2) * power(x, y / 2);
-}
-
-int64_t summ(std::vector<int64_t> &v) {
+static int64_t sum(std::vector<int64_t> &v) {
     int ans = 0;
     for (auto e: v) {
         ans += e;
@@ -248,7 +284,7 @@ int64_t summ(std::vector<int64_t> &v) {
     return ans;
 }
 
-std::vector<int64_t> polynomial::get_values() {
+std::vector<int64_t> polynomial::get_roots() {
     for (auto curr = head; curr != nullptr; curr = curr->next) {
         int cnt = 0;
         for (auto e: curr->powers) {
@@ -265,7 +301,7 @@ std::vector<int64_t> polynomial::get_values() {
         int tmp = 0;
         if (i != 0 && tail->k % i == 0) {
             for (auto curr = head; curr != nullptr; curr = curr->next) {
-                tmp += curr->k * power(i, summ(curr->powers));
+                tmp += curr->k * power(i, sum(curr->powers));
             }
             if (tmp == 0) {
                 ans.insert(i);
@@ -276,14 +312,14 @@ std::vector<int64_t> polynomial::get_values() {
         int tmp = 0;
         if (i != 0 && tail->k % i == 0) {
             for (auto curr = head; curr != nullptr; curr = curr->next) {
-                tmp += curr->k * power(i, summ(curr->powers));
+                tmp += curr->k * power(i, sum(curr->powers));
             }
             if (tmp == 0) {
                 ans.insert(i);
             }
         }
     }
-    if (summ(tail->powers)) {
+    if (sum(tail->powers)) {
         ans.insert(0);
     }
     std::vector<int64_t> out;
@@ -308,7 +344,6 @@ std::string polynomial::to_string() {
     }
     return ans;
 }
-
 
 
 

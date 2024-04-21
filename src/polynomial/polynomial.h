@@ -24,7 +24,9 @@ public:
 
     void normalize();
 
-    polynomial get_derivative(int n);
+    int64_t get_value_in_point(std::vector<int64_t> &vars);
+
+    polynomial get_derivative(int n, char x);
 
     polynomial operator+(const polynomial &pol);
 
@@ -32,7 +34,7 @@ public:
 
     bool operator==(const polynomial &pol);
 
-    std::vector<int64_t> get_values();
+    std::vector<int64_t> get_roots();
 
     std::string to_string();
 

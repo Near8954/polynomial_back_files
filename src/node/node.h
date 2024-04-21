@@ -6,6 +6,7 @@
 #include <vector>
 #include <iostream>
 #include <set>
+#include <cstdint>
 
 struct wrong_monomial {
     wrong_monomial(std::string s, char ch) {
@@ -32,11 +33,13 @@ struct node {
 
     bool operator!=(node &nd);
 
-    node operator*(node &nd);
-
     bool operator>(node &nd);
 
     bool operator<=(node &nd);
+
+    node operator*(node &nd);
+
+    node get_derivative(char x);
 
     std::string to_string();
 
