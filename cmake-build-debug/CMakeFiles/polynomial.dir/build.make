@@ -43,10 +43,10 @@ cmake_force:
 SHELL = cmd.exe
 
 # The CMake executable.
-CMAKE_COMMAND = C:\Users\romab\AppData\Local\Programs\CLion\bin\cmake\win\x64\bin\cmake.exe
+CMAKE_COMMAND = D:\jetbrains_tools\CLion\bin\cmake\win\x64\bin\cmake.exe
 
 # The command to remove a file.
-RM = C:\Users\romab\AppData\Local\Programs\CLion\bin\cmake\win\x64\bin\cmake.exe -E rm -f
+RM = D:\jetbrains_tools\CLion\bin\cmake\win\x64\bin\cmake.exe -E rm -f
 
 # Escaping for special characters.
 EQUALS = =
@@ -72,57 +72,57 @@ CMakeFiles/polynomial.dir/main.cpp.obj: CMakeFiles/polynomial.dir/flags.make
 CMakeFiles/polynomial.dir/main.cpp.obj: C:/Users/romab/polynomial_back_files/main.cpp
 CMakeFiles/polynomial.dir/main.cpp.obj: CMakeFiles/polynomial.dir/compiler_depend.ts
 	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green --progress-dir=C:\Users\romab\polynomial_back_files\cmake-build-debug\CMakeFiles --progress-num=$(CMAKE_PROGRESS_1) "Building CXX object CMakeFiles/polynomial.dir/main.cpp.obj"
-	C:\Users\romab\AppData\Local\Programs\CLion\bin\mingw\bin\g++.exe $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -MD -MT CMakeFiles/polynomial.dir/main.cpp.obj -MF CMakeFiles\polynomial.dir\main.cpp.obj.d -o CMakeFiles\polynomial.dir\main.cpp.obj -c C:\Users\romab\polynomial_back_files\main.cpp
+	D:\jetbrains_tools\CLion\bin\mingw\bin\g++.exe $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -MD -MT CMakeFiles/polynomial.dir/main.cpp.obj -MF CMakeFiles\polynomial.dir\main.cpp.obj.d -o CMakeFiles\polynomial.dir\main.cpp.obj -c C:\Users\romab\polynomial_back_files\main.cpp
 
 CMakeFiles/polynomial.dir/main.cpp.i: cmake_force
 	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green "Preprocessing CXX source to CMakeFiles/polynomial.dir/main.cpp.i"
-	C:\Users\romab\AppData\Local\Programs\CLion\bin\mingw\bin\g++.exe $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -E C:\Users\romab\polynomial_back_files\main.cpp > CMakeFiles\polynomial.dir\main.cpp.i
+	D:\jetbrains_tools\CLion\bin\mingw\bin\g++.exe $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -E C:\Users\romab\polynomial_back_files\main.cpp > CMakeFiles\polynomial.dir\main.cpp.i
 
 CMakeFiles/polynomial.dir/main.cpp.s: cmake_force
 	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green "Compiling CXX source to assembly CMakeFiles/polynomial.dir/main.cpp.s"
-	C:\Users\romab\AppData\Local\Programs\CLion\bin\mingw\bin\g++.exe $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S C:\Users\romab\polynomial_back_files\main.cpp -o CMakeFiles\polynomial.dir\main.cpp.s
+	D:\jetbrains_tools\CLion\bin\mingw\bin\g++.exe $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S C:\Users\romab\polynomial_back_files\main.cpp -o CMakeFiles\polynomial.dir\main.cpp.s
 
 CMakeFiles/polynomial.dir/src/polynomial/polynomial.cpp.obj: CMakeFiles/polynomial.dir/flags.make
 CMakeFiles/polynomial.dir/src/polynomial/polynomial.cpp.obj: C:/Users/romab/polynomial_back_files/src/polynomial/polynomial.cpp
 CMakeFiles/polynomial.dir/src/polynomial/polynomial.cpp.obj: CMakeFiles/polynomial.dir/compiler_depend.ts
 	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green --progress-dir=C:\Users\romab\polynomial_back_files\cmake-build-debug\CMakeFiles --progress-num=$(CMAKE_PROGRESS_2) "Building CXX object CMakeFiles/polynomial.dir/src/polynomial/polynomial.cpp.obj"
-	C:\Users\romab\AppData\Local\Programs\CLion\bin\mingw\bin\g++.exe $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -MD -MT CMakeFiles/polynomial.dir/src/polynomial/polynomial.cpp.obj -MF CMakeFiles\polynomial.dir\src\polynomial\polynomial.cpp.obj.d -o CMakeFiles\polynomial.dir\src\polynomial\polynomial.cpp.obj -c C:\Users\romab\polynomial_back_files\src\polynomial\polynomial.cpp
+	D:\jetbrains_tools\CLion\bin\mingw\bin\g++.exe $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -MD -MT CMakeFiles/polynomial.dir/src/polynomial/polynomial.cpp.obj -MF CMakeFiles\polynomial.dir\src\polynomial\polynomial.cpp.obj.d -o CMakeFiles\polynomial.dir\src\polynomial\polynomial.cpp.obj -c C:\Users\romab\polynomial_back_files\src\polynomial\polynomial.cpp
 
 CMakeFiles/polynomial.dir/src/polynomial/polynomial.cpp.i: cmake_force
 	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green "Preprocessing CXX source to CMakeFiles/polynomial.dir/src/polynomial/polynomial.cpp.i"
-	C:\Users\romab\AppData\Local\Programs\CLion\bin\mingw\bin\g++.exe $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -E C:\Users\romab\polynomial_back_files\src\polynomial\polynomial.cpp > CMakeFiles\polynomial.dir\src\polynomial\polynomial.cpp.i
+	D:\jetbrains_tools\CLion\bin\mingw\bin\g++.exe $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -E C:\Users\romab\polynomial_back_files\src\polynomial\polynomial.cpp > CMakeFiles\polynomial.dir\src\polynomial\polynomial.cpp.i
 
 CMakeFiles/polynomial.dir/src/polynomial/polynomial.cpp.s: cmake_force
 	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green "Compiling CXX source to assembly CMakeFiles/polynomial.dir/src/polynomial/polynomial.cpp.s"
-	C:\Users\romab\AppData\Local\Programs\CLion\bin\mingw\bin\g++.exe $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S C:\Users\romab\polynomial_back_files\src\polynomial\polynomial.cpp -o CMakeFiles\polynomial.dir\src\polynomial\polynomial.cpp.s
+	D:\jetbrains_tools\CLion\bin\mingw\bin\g++.exe $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S C:\Users\romab\polynomial_back_files\src\polynomial\polynomial.cpp -o CMakeFiles\polynomial.dir\src\polynomial\polynomial.cpp.s
 
 CMakeFiles/polynomial.dir/src/node/node.cpp.obj: CMakeFiles/polynomial.dir/flags.make
 CMakeFiles/polynomial.dir/src/node/node.cpp.obj: C:/Users/romab/polynomial_back_files/src/node/node.cpp
 CMakeFiles/polynomial.dir/src/node/node.cpp.obj: CMakeFiles/polynomial.dir/compiler_depend.ts
 	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green --progress-dir=C:\Users\romab\polynomial_back_files\cmake-build-debug\CMakeFiles --progress-num=$(CMAKE_PROGRESS_3) "Building CXX object CMakeFiles/polynomial.dir/src/node/node.cpp.obj"
-	C:\Users\romab\AppData\Local\Programs\CLion\bin\mingw\bin\g++.exe $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -MD -MT CMakeFiles/polynomial.dir/src/node/node.cpp.obj -MF CMakeFiles\polynomial.dir\src\node\node.cpp.obj.d -o CMakeFiles\polynomial.dir\src\node\node.cpp.obj -c C:\Users\romab\polynomial_back_files\src\node\node.cpp
+	D:\jetbrains_tools\CLion\bin\mingw\bin\g++.exe $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -MD -MT CMakeFiles/polynomial.dir/src/node/node.cpp.obj -MF CMakeFiles\polynomial.dir\src\node\node.cpp.obj.d -o CMakeFiles\polynomial.dir\src\node\node.cpp.obj -c C:\Users\romab\polynomial_back_files\src\node\node.cpp
 
 CMakeFiles/polynomial.dir/src/node/node.cpp.i: cmake_force
 	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green "Preprocessing CXX source to CMakeFiles/polynomial.dir/src/node/node.cpp.i"
-	C:\Users\romab\AppData\Local\Programs\CLion\bin\mingw\bin\g++.exe $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -E C:\Users\romab\polynomial_back_files\src\node\node.cpp > CMakeFiles\polynomial.dir\src\node\node.cpp.i
+	D:\jetbrains_tools\CLion\bin\mingw\bin\g++.exe $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -E C:\Users\romab\polynomial_back_files\src\node\node.cpp > CMakeFiles\polynomial.dir\src\node\node.cpp.i
 
 CMakeFiles/polynomial.dir/src/node/node.cpp.s: cmake_force
 	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green "Compiling CXX source to assembly CMakeFiles/polynomial.dir/src/node/node.cpp.s"
-	C:\Users\romab\AppData\Local\Programs\CLion\bin\mingw\bin\g++.exe $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S C:\Users\romab\polynomial_back_files\src\node\node.cpp -o CMakeFiles\polynomial.dir\src\node\node.cpp.s
+	D:\jetbrains_tools\CLion\bin\mingw\bin\g++.exe $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S C:\Users\romab\polynomial_back_files\src\node\node.cpp -o CMakeFiles\polynomial.dir\src\node\node.cpp.s
 
 CMakeFiles/polynomial.dir/src/base/base.cpp.obj: CMakeFiles/polynomial.dir/flags.make
 CMakeFiles/polynomial.dir/src/base/base.cpp.obj: C:/Users/romab/polynomial_back_files/src/base/base.cpp
 CMakeFiles/polynomial.dir/src/base/base.cpp.obj: CMakeFiles/polynomial.dir/compiler_depend.ts
 	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green --progress-dir=C:\Users\romab\polynomial_back_files\cmake-build-debug\CMakeFiles --progress-num=$(CMAKE_PROGRESS_4) "Building CXX object CMakeFiles/polynomial.dir/src/base/base.cpp.obj"
-	C:\Users\romab\AppData\Local\Programs\CLion\bin\mingw\bin\g++.exe $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -MD -MT CMakeFiles/polynomial.dir/src/base/base.cpp.obj -MF CMakeFiles\polynomial.dir\src\base\base.cpp.obj.d -o CMakeFiles\polynomial.dir\src\base\base.cpp.obj -c C:\Users\romab\polynomial_back_files\src\base\base.cpp
+	D:\jetbrains_tools\CLion\bin\mingw\bin\g++.exe $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -MD -MT CMakeFiles/polynomial.dir/src/base/base.cpp.obj -MF CMakeFiles\polynomial.dir\src\base\base.cpp.obj.d -o CMakeFiles\polynomial.dir\src\base\base.cpp.obj -c C:\Users\romab\polynomial_back_files\src\base\base.cpp
 
 CMakeFiles/polynomial.dir/src/base/base.cpp.i: cmake_force
 	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green "Preprocessing CXX source to CMakeFiles/polynomial.dir/src/base/base.cpp.i"
-	C:\Users\romab\AppData\Local\Programs\CLion\bin\mingw\bin\g++.exe $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -E C:\Users\romab\polynomial_back_files\src\base\base.cpp > CMakeFiles\polynomial.dir\src\base\base.cpp.i
+	D:\jetbrains_tools\CLion\bin\mingw\bin\g++.exe $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -E C:\Users\romab\polynomial_back_files\src\base\base.cpp > CMakeFiles\polynomial.dir\src\base\base.cpp.i
 
 CMakeFiles/polynomial.dir/src/base/base.cpp.s: cmake_force
 	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green "Compiling CXX source to assembly CMakeFiles/polynomial.dir/src/base/base.cpp.s"
-	C:\Users\romab\AppData\Local\Programs\CLion\bin\mingw\bin\g++.exe $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S C:\Users\romab\polynomial_back_files\src\base\base.cpp -o CMakeFiles\polynomial.dir\src\base\base.cpp.s
+	D:\jetbrains_tools\CLion\bin\mingw\bin\g++.exe $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S C:\Users\romab\polynomial_back_files\src\base\base.cpp -o CMakeFiles\polynomial.dir\src\base\base.cpp.s
 
 # Object files for target polynomial
 polynomial_OBJECTS = \

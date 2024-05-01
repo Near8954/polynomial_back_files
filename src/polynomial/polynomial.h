@@ -3,82 +3,45 @@
 
 #include <string>
 #include "../node/node.h"
-
-class polynomial {
+class Polynomial {
 public:
-    polynomial();
+    Polynomial();
+    ~Polynomial();
+    explicit Polynomial(std::string s);
+    Polynomial(const Polynomial &pol);
 
-    ~polynomial();
+    void insert_back(Node *&e);
+    void insert_back(const Polynomial& pol);
+    void remove(Node *&it);
 
-    explicit polynomial(std::string s);
-
-    polynomial(const polynomial &pol);
-
-    void insert_back(node *&e);
-
-    void insert_back(const polynomial& pol);
-
-    void remove(node *&it);
-
-    void polynomial_sort();
-
+    void sort();
     void normalize();
 
-    int64_t get_value_in_point(std::vector<int64_t> &vars);
+    int64_t getValueInPoint(std::vector<int64_t> &vars);
+    Polynomial getDerivative(int n, char x);
 
-    polynomial get_derivative(int n, char x);
+    Polynomial operator+(const Polynomial &pol);
+    Polynomial operator*(const Polynomial &pol);
+    bool operator==(const Polynomial &pol);
 
-    polynomial operator+(const polynomial &pol);
+    std::vector<int64_t> getRoots();
+    std::string toString();
 
-    polynomial operator*(const polynomial &pol);
+    void setNext(Polynomial *&pol);
+    void setNextNull();
+    void setPrev(Polynomial *&pol);
+    void setPrevNull();
 
-    bool operator==(const polynomial &pol);
+    Polynomial *getNext();
+    Polynomial *getPrev();
 
-    std::vector<int64_t> get_roots();
-
-    std::string to_string();
-
-    //friend void mergeSort(node *&L, int sz);
-
-    //friend node *merge(node *&L, node *&r);
-
-    //friend std::ostream &operator<<(std::ostream &os, const polynomial &p);
-
-    void set_next(polynomial *&pol) {
-        next = pol;
-    }
-
-    void set_next_null() {
-        next = nullptr;
-    }
-
-    void set_prev(polynomial *&pol) {
-        prev = pol;
-    }
-
-    void set_prev_null() {
-        prev = nullptr;
-    }
-
-    polynomial *get_next() {
-        return next;
-    }
-
-    polynomial *get_prev() {
-        return prev;
-    }
-
-    int size() {
-        return sz;
-    }
+    int size();
 
 private:
-    node *head = nullptr;
-    node *tail = nullptr;
-    polynomial *next = nullptr;
-    polynomial *prev = nullptr;
+    Node *head = nullptr;
+    Node *tail = nullptr;
+    Polynomial *next = nullptr;
+    Polynomial *prev = nullptr;
     int sz = 0;
 };
-
-
 #endif //POLYNOMIAL_POLYNOMIAL_H

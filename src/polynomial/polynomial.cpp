@@ -3,16 +3,19 @@
 int64_t power(int64_t x, int64_t y) {
     if (y == 0)
         return 1;
-    else if (y % 2 == 0)
-        return power(x, y / 2) * power(x, y / 2);
-    else
-        return x * power(x, y / 2) * power(x, y / 2);
+    else {
+        int64_t halfPower = power(x, y / 2);
+        if (y % 2 == 0)
+            return halfPower * halfPower;
+        else
+            return x * halfPower * halfPower;
+    }
 }
 
-node *merge(node *l, node *r) {
+Node *merge(Node *l, Node *r) {
     if (l == nullptr) return r;
     if (r == nullptr) return l;
-    node *cur;
+    Node *cur;
     if (*l > *r) {
         cur = l;
         l = l->next;
@@ -20,7 +23,7 @@ node *merge(node *l, node *r) {
         cur = r;
         r = r->next;
     }
-    node *beg = cur;
+    Node *beg = cur;
     while (l != nullptr && r != nullptr) {
         if (*l > *r) {
             cur->next = l;
@@ -45,14 +48,14 @@ node *merge(node *l, node *r) {
     return beg;
 }
 
-void mrgsort(node *&l, int n) {
+void mrgsort(Node *&l, int n) {
     if (n <= 1) return;
     int m = n / 2;
-    node *cur = l;
+    Node *cur = l;
     for (int i = 0; i < m; ++i) {
         cur = cur->next;
     }
-    node *r = cur;
+    Node *r = cur;
     cur->prev->next = nullptr;
     cur->prev = nullptr;
     mrgsort(l, m);
@@ -60,45 +63,39 @@ void mrgsort(node *&l, int n) {
     l = merge(l, r);
 }
 
-
-polynomial::polynomial() {
+Polynomial::Polynomial() {
     head = nullptr;
     tail = nullptr;
 }
 
-polynomial::~polynomial() {
-//    for (auto l = this->head; l != nullptr; l = l->next) {
-//        auto curr = l;
-//        this->remove(curr);
-//    }
-    node *curr = this->head;
+Polynomial::~Polynomial() {
+    Node *curr = this->head;
     while (curr != nullptr) {
-        node *next = curr->next;
+        Node *next = curr->next;
         this->remove(curr);
         curr = next;
     }
 }
 
-
-polynomial::polynomial(std::string s) {
+Polynomial::Polynomial(std::string s) {
     std::string cp = s;
     std::string curr;
     for (int i = 0; i < cp.size(); ++i) {
         if (s[i] == '-' || s[i] == '+' && !curr.empty()) {
-            node *nd = new node(curr);
+            Node *nd = new Node(curr);
             insert_back(nd);
             curr.clear();
         }
         curr += s[i];
     }
     if (!curr.empty()) {
-        node *nd = new node(curr);
+        Node *nd = new Node(curr);
         insert_back(nd);
         curr.clear();
     }
 }
 
-polynomial::polynomial(const polynomial &pol) {
+Polynomial::Polynomial(const Polynomial &pol) {
     if (pol.head == nullptr) {
         next = nullptr;
         prev = nullptr;
@@ -111,7 +108,7 @@ polynomial::polynomial(const polynomial &pol) {
         prev = nullptr;
         sz = 0;
         for (auto el = pol.head; el != nullptr; el = el->next) {
-            node *nd = new node(*el);
+            Node *nd = new Node(*el);
             nd->next = nullptr;
             nd->prev = nullptr;
             insert_back(nd);
@@ -120,7 +117,7 @@ polynomial::polynomial(const polynomial &pol) {
 }
 
 
-void polynomial::insert_back(node *&e) {
+void Polynomial::insert_back(Node *&e) {
     if (tail == nullptr) {
         tail = e;
         head = e;
@@ -133,19 +130,17 @@ void polynomial::insert_back(node *&e) {
     ++sz;
 }
 
-
-void polynomial::insert_back(const polynomial &pol) {
+void Polynomial::insert_back(const Polynomial &pol) {
     if (this->tail == nullptr) {}
     this->tail->next = pol.head;
     pol.head->prev = this->tail;
-    node *tmp = this->head;
+    Node *tmp = this->head;
     sz += pol.sz;
     for (; tmp->next != nullptr; tmp = tmp->next) {}
     this->tail = tmp;
 }
 
-
-void polynomial::remove(node *&it) {
+void Polynomial::remove(Node *&it) {
     if (it == nullptr) {
         return;
     }
@@ -174,26 +169,26 @@ void polynomial::remove(node *&it) {
     delete it;
 }
 
-void polynomial::polynomial_sort() {
+void Polynomial::sort() {
     mrgsort(this->head, sz);
 }
 
-void polynomial::normalize() {
-    this->polynomial_sort();
+void Polynomial::normalize() {
+    this->sort();
     if (this->head == nullptr) {
         return;
     }
     for (auto l = this->head; l->next != nullptr;) {
-        node *nxt = l->next;
+        Node *nxt = l->next;
         if (l->powers == nxt->powers) {
-            l->k += nxt->k;
+            l->coefficient += nxt->coefficient;
             remove(nxt);
             continue;
         }
         l = l->next;
     }
     for (auto l = head; l != nullptr; l = l->next) {
-        if (l->k == 0) {
+        if (l->coefficient == 0) {
             l->powers.assign(26, 0);
         }
     }
@@ -203,68 +198,68 @@ void polynomial::normalize() {
         tail = l;
         ++sz;
     }
-    if (tail != nullptr && head != nullptr && head != tail && tail->k == 0) {
+    if (tail != nullptr && head != nullptr && head != tail && tail->coefficient == 0) {
         tail = tail->prev;
         remove(tail->next);
     }
 }
 
-int64_t polynomial::get_value_in_point(std::vector<int64_t> &vars) {
+int64_t Polynomial::getValueInPoint(std::vector<int64_t> &vars) {
     int64_t ans = 0;
     for (auto curr = head; curr != nullptr; curr = curr->next) {
         int64_t tmp = 1;
         for (int i = 0; i < 26; ++i) {
             tmp *= power(vars[i], curr->powers[i]);
         }
-        tmp *= curr->k;
+        tmp *= curr->coefficient;
         ans += tmp;
     }
     return ans;
 }
 
 
-polynomial polynomial::get_derivative(int n, char x) {
-    auto tmp = new polynomial(*this);
-    polynomial ans;
+Polynomial Polynomial::getDerivative(int n, char x) {
+    auto tmp = new Polynomial(*this);
+    Polynomial ans;
     for (int i = 0; i < n; ++i) {
         for (auto curr = tmp->head; curr != nullptr; curr = curr->next) {
-            auto nd = new node(curr->get_derivative(x));
+            auto nd = new Node(curr->getDerivative(x));
             ans.insert_back(nd);
         }
         delete tmp;
-        tmp = new polynomial(ans);
-        ans = polynomial();
+        tmp = new Polynomial(ans);
+        ans = Polynomial();
     }
     tmp->normalize();
     return *tmp;
 }
 
-polynomial polynomial::operator+(const polynomial &pol) {
-    polynomial cp;
+Polynomial Polynomial::operator+(const Polynomial &pol) {
+    Polynomial cp;
     for (auto tmp = pol.head; tmp != nullptr; tmp = tmp->next) {
-        auto nd = (new node(*tmp));
+        auto nd = (new Node(*tmp));
         cp.insert_back(nd);
     }
     for (auto tmp = this->head; tmp != nullptr; tmp = tmp->next) {
-        auto nd = (new node(*tmp));
+        auto nd = (new Node(*tmp));
         cp.insert_back(nd);
     }
     cp.normalize();
     return cp;
 }
 
-polynomial polynomial::operator*(const polynomial &pol) {
-    polynomial ans;
+Polynomial Polynomial::operator*(const Polynomial &pol) {
+    Polynomial ans;
     for (auto t1 = head; t1 != nullptr; t1 = t1->next) {
         for (auto t2 = pol.head; t2 != nullptr; t2 = t2->next) {
-            auto nd = new node((*t1) * (*t2));
+            auto nd = new Node((*t1) * (*t2));
             ans.insert_back(nd);
         }
     }
     return ans;
 }
 
-bool polynomial::operator==(const polynomial &pol) {
+bool Polynomial::operator==(const Polynomial &pol) {
     if (this->sz != pol.sz) {
         return false;
     }
@@ -284,7 +279,7 @@ static int64_t sum(std::vector<int64_t> &v) {
     return ans;
 }
 
-std::vector<int64_t> polynomial::get_roots() {
+std::vector<int64_t> Polynomial::getRoots() {
     for (auto curr = head; curr != nullptr; curr = curr->next) {
         int cnt = 0;
         for (auto e: curr->powers) {
@@ -297,22 +292,22 @@ std::vector<int64_t> polynomial::get_roots() {
         }
     }
     std::set<int> ans;
-    for (int64_t i = -tail->k; i < tail->k; ++i) {
+    for (int64_t i = -tail->coefficient; i < tail->coefficient; ++i) {
         int tmp = 0;
-        if (i != 0 && tail->k % i == 0) {
+        if (i != 0 && tail->coefficient % i == 0) {
             for (auto curr = head; curr != nullptr; curr = curr->next) {
-                tmp += curr->k * power(i, sum(curr->powers));
+                tmp += curr->coefficient * power(i, sum(curr->powers));
             }
             if (tmp == 0) {
                 ans.insert(i);
             }
         }
     }
-    for (int64_t i = tail->k; i < -tail->k; ++i) {
+    for (int64_t i = tail->coefficient; i < -tail->coefficient; ++i) {
         int tmp = 0;
-        if (i != 0 && tail->k % i == 0) {
+        if (i != 0 && tail->coefficient % i == 0) {
             for (auto curr = head; curr != nullptr; curr = curr->next) {
-                tmp += curr->k * power(i, sum(curr->powers));
+                tmp += curr->coefficient * power(i, sum(curr->powers));
             }
             if (tmp == 0) {
                 ans.insert(i);
@@ -330,30 +325,45 @@ std::vector<int64_t> polynomial::get_roots() {
 }
 
 
-std::string polynomial::to_string() {
+std::string Polynomial::toString() {
     std::string ans;
-    for (node *t = this->head; t != nullptr; t = t->next) {
-        if (t->k == 0 && t != this->head) {
+    for (Node *t = this->head; t != nullptr; t = t->next) {
+        if (t->coefficient == 0 && t != this->head) {
             ans += "0";
-        } else if (t->k > 0 && t != this->head) {
+        } else if (t->coefficient > 0 && t != this->head) {
             ans += '+';
-            ans += t->to_string();
+            ans += t->toString();
         } else {
-            ans += t->to_string();
+            ans += t->toString();
         }
     }
     return ans;
 }
 
+void Polynomial::setNext(Polynomial *&pol) {
+    this->next = pol;
+}
 
+void Polynomial::setNextNull() {
+    this->next = nullptr;
+}
 
-/*std::ostream &operator<<(std::ostream &os, const polynomial &p) {
-    for (node *t = p.head; t != nullptr; t = t->next) {
-        if (t->k > 0 && t != p.head) {
-            os << '+' << *t;
-        } else {
-            os << *t;
-        }
-    }
-    return os;
-}*/
+void Polynomial::setPrev(Polynomial *&pol) {
+    this->prev = pol;
+}
+
+void Polynomial::setPrevNull() {
+    this->prev = nullptr;
+}
+
+Polynomial *Polynomial::getNext() {
+    return this->next;
+}
+
+Polynomial *Polynomial::getPrev() {
+    return this->prev;
+}
+
+int Polynomial::size() {
+    return this->sz;
+}
