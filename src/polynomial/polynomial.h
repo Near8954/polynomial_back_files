@@ -22,6 +22,8 @@ public:
 
     Polynomial operator+(const Polynomial &pol);
     Polynomial operator*(const Polynomial &pol);
+    Polynomial operator-(const Polynomial &pol);
+    Polynomial operator/(const Polynomial &pol);
     bool operator==(const Polynomial &pol);
 
     std::vector<int64_t> getRoots();

@@ -211,6 +211,19 @@ Node Node::getDerivative(char x) {
     return ans;
 }
 
+Node Node::operator/(Node &nd) {
+    Node ans;
+    for (int i = 0; i < powers.size(); ++i) {
+        ans.powers[i] = powers[i] - nd.powers[i];
+    }
+    ans.coefficient = coefficient / nd.coefficient;
+    if (ans.coefficient == 0) {
+        ans.powers.clear();
+    }
+    return ans;
+}
+
+
 
 /*std::ostream &operator<<(std::ostream &os, const node &nd) {
     os << nd.k;

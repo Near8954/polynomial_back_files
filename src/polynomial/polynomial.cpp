@@ -367,3 +367,42 @@ Polynomial *Polynomial::getPrev() {
 int Polynomial::size() {
     return this->sz;
 }
+
+Polynomial Polynomial::operator-(const Polynomial &pol) {
+    Polynomial cp;
+    for (auto tmp = pol.head; tmp != nullptr; tmp = tmp->next) {
+        auto nd = (new Node(*tmp));
+        cp.insert_back(nd);
+    }
+    for (auto tmp = cp.head; tmp != nullptr; tmp = tmp->next) {
+        tmp->coefficient *= -1;
+    }
+    for (auto tmp = this->head; tmp != nullptr; tmp = tmp->next) {
+        auto nd = (new Node(*tmp));
+        cp.insert_back(nd);
+    }
+
+    cp.normalize();
+    return cp;
+}
+
+Polynomial Polynomial::operator/(const Polynomial &divisor) {
+    if (divisor.head == nullptr) {
+        throw std::invalid_argument("Division by zero polynomial");
+    }
+
+    Polynomial dividend = *this;
+    Polynomial quotient;
+
+    while (dividend.head != nullptr && dividend.head->powers >= divisor.head->powers) {
+        Node* adjustmentNode = new Node(*dividend.head / *divisor.head);
+        Polynomial adjustmentPolynomial;
+        adjustmentPolynomial.insert_back(adjustmentNode);
+
+        quotient = quotient + adjustmentPolynomial;
+        Polynomial adjustmentProduct = adjustmentPolynomial * divisor;
+        dividend = dividend - adjustmentProduct;
+    }
+
+    return quotient;
+}

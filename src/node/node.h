@@ -39,6 +39,8 @@ struct Node {
 
     Node operator*(Node &nd);
 
+    Node operator/(Node &nd);
+
     Node getDerivative(char x);
 
     std::string toString();
